@@ -44,8 +44,6 @@
         button.addEventListener('click', () => {
             // 削除ボタンを押されたタスクのIDを取得
             const id = tr.getElementsByClassName('id')[0].textContent;
-            //タスク削除
-            tr.remove(); 
             deleteTask(id);            
         });
     }
