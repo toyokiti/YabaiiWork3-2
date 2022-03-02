@@ -4,7 +4,6 @@
     const inputTask = (name, status = '作業中') => {
         // tasks配列の末尾に、タスクオブジェクトをプッシュする
         const newtask = {
-            id:  tasks.length,
             name:  name,
             status: status,
         }; 
@@ -41,7 +40,19 @@
         // td取得＆ボタン追加
         const td = tr.getElementsByClassName('status')[0]
         td.appendChild(button);
-        //todo: 課題3-2でここに、削除ボタンをクリックするとタスクを削除するイベント追加
+
+        button.addEventListener('click', () => {
+            // 削除ボタンを押されたタスクのIDを取得
+            const id = tr.getElementsByClassName('id')[0].textContent;
+            deleteTask(id);            
+        });
+    }
+
+    // tasks配列から対象のタスクオブジェクトを削除し、ブラウザにtasks配列の中身を再描画する関数
+    const deleteTask = (id) => {
+        //削除を押されたタスクをtasks配列から削除
+        tasks.splice(id, 1);
+        refleshTable();
     }
 
     // ブラウザに表示されているタスクを一旦削除してから再描画する関数
@@ -50,7 +61,7 @@
         const tbody = document.getElementById('tbody');
         deleteTaskTable(tbody);
 
-        tasks.forEach((value) => {
+        tasks.forEach((value, index) => {
             // trの作成
             const tr = document.createElement('tr');
             // tdの作成
@@ -58,7 +69,7 @@
             const name = document.createElement('td');
             const status = document.createElement('td');
             // 各HTML要素に、テキストとクラス名を追加
-            addClassAndText(id, value.id, 'id');
+            addClassAndText(id, index, 'id');
             addClassAndText(name, value.name, 'taskName' );
             addClassAndText(status, '', 'status');
             // trの中にtdを追加
